@@ -51,6 +51,11 @@ app.patch('/tweets/:id', async (req, res) => {
     res.redirect('/tweets')
 })
 
+app.delete('/tweets/:id', async (req, res) => {
+    await Tweet.findByIdAndRemove(req.params.id)
+    res.redirect('/tweets')
+})
+
 app.listen(3000, () => {
     console.log('Server is up on port 3000!')
 })
