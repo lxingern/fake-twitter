@@ -8,6 +8,10 @@
 </head>
 <body>
     <h1>Fake Twitter</h1>
+    <form action="/tweets" method="POST">
+        <textarea name="text" maxlength="280" autocomplete="off" required>What's happening?</textarea>
+        <button>Submit</button>
+    </form>
     <ul>
         <% for (let tweet of tweets) { %>
             <li><%= tweet.text %> - Likes: <%= tweet.likes %></li>
