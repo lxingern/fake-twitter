@@ -7,6 +7,7 @@ const Tweet = require('./models/tweet')
 
 const app = express()
 
+const publicDirectoryPath = path.join(__dirname, '../public')
 const viewsPath = path.join(__dirname, '../templates/views')
 
 app.engine('ejs', ejsMate);
@@ -15,6 +16,7 @@ app.set('views', viewsPath)
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'))
+app.use(express.static(publicDirectoryPath))
 
 app.get('/tweets', async (req, res) => {
     const tweets = await Tweet.find({})
