@@ -2,6 +2,7 @@ const path = require('path')
 const express = require('express')
 require('./db/mongoose')
 const ejsMate = require('ejs-mate')
+const methodOverride = require('method-override')
 const Tweet = require('./models/tweet')
 
 const app = express()
@@ -13,6 +14,7 @@ app.set('view engine', 'ejs')
 app.set('views', viewsPath)
 
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'))
 
 app.get('/tweets', async (req, res) => {
     const tweets = await Tweet.find({})
