@@ -3,7 +3,9 @@ const mongoose = require('mongoose')
 const tweetSchema = new mongoose.Schema({
     text: {
         type: String,
-        required: true
+        required: true,
+        minLength: 1,
+        maxLength: 280
     }, 
     likes: {
         type: Number,
