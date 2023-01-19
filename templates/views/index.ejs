@@ -14,7 +14,11 @@
     </form>
     <ul>
         <% for (let tweet of tweets) { %>
-            <li><%= tweet.text %> - Likes: <%= tweet.likes %></li>
+            <li>
+                <a href="/tweets/<%= tweet._id %>">
+                    <%= tweet.text %> - Likes: <%= tweet.likes %>
+                </a>
+            </li>
         <% } %>
     </ul>
 </body>

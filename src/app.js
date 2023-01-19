@@ -15,23 +15,23 @@ app.set('views', viewsPath)
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/tweets', async (req, res) => {
-    try {
-        const tweets = await Tweet.find({})
-        // res.status(200).send(tweets)
-        res.render('index', { tweets })
-    } catch (e) {
-        res.status(500).send(e)
+    const tweets = await Tweet.find({})
+    // res.status(200).send(tweets)
+    res.render('index', { tweets })
+})
+
+app.get('/tweets/:id', async (req, res) => {
+    const tweet = await Tweet.findById(req.params.id)
+    if (!tweet) {
+        res.send('That tweet does not exist!')
     }
+    res.render('show', { tweet })
 })
 
 app.post('/tweets', async (req, res) => {
     const tweet = new Tweet(req.body)
-    try {
-        await tweet.save()
-        res.redirect('/tweets')
-    } catch (e) {
-        res.status(500).send(e)
-    }
+    await tweet.save()
+    res.redirect('/tweets')
 })
 
 app.listen(3000, () => {
