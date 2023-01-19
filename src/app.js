@@ -36,6 +36,12 @@ app.post('/tweets', async (req, res) => {
     res.redirect('/tweets')
 })
 
+app.patch('/tweets/:id', async (req, res) => {
+    const tweet = await Tweet.findByIdAndUpdate(req.params.id, { $inc: { likes: 1 } })
+    await tweet.save()
+    res.redirect('/tweets')
+})
+
 app.listen(3000, () => {
     console.log('Server is up on port 3000!')
 })

@@ -18,6 +18,9 @@
                 <a href="/tweets/<%= tweet._id %>">
                     <%= tweet.text %> - Likes: <%= tweet.likes %>
                 </a>
+                <form action="/tweets/<%= tweet._id %>?_method=PATCH" method="POST">
+                    <button>Like</button>
+                </form>
             </li>
         <% } %>
     </ul>
