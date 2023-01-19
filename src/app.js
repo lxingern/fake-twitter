@@ -18,7 +18,6 @@ app.use(methodOverride('_method'))
 
 app.get('/tweets', async (req, res) => {
     const tweets = await Tweet.find({})
-    // res.status(200).send(tweets)
     res.render('index', { tweets })
 })
 
@@ -30,6 +29,11 @@ app.get('/tweets/:id', async (req, res) => {
     res.render('show', { tweet })
 })
 
+app.get('/tweets/:id/edit', async (req, res) => {
+    const tweet = await Tweet.findById(req.params.id)
+    res.render('edit', { tweet })
+})
+
 app.post('/tweets', async (req, res) => {
     const tweet = new Tweet(req.body)
     await tweet.save()
@@ -37,8 +41,13 @@ app.post('/tweets', async (req, res) => {
 })
 
 app.patch('/tweets/:id', async (req, res) => {
-    const tweet = await Tweet.findByIdAndUpdate(req.params.id, { $inc: { likes: 1 } })
-    await tweet.save()
+    if (req.body.text) {
+        const tweet = await Tweet.findByIdAndUpdate(req.params.id, { text: req.body.text })
+        await tweet.save()
+    } else {
+        const tweet = await Tweet.findByIdAndUpdate(req.params.id, { $inc: { likes: 1 } })
+        await tweet.save()
+    }
     res.redirect('/tweets')
 })
 

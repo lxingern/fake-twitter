@@ -21,6 +21,7 @@
                 <form action="/tweets/<%= tweet._id %>?_method=PATCH" method="POST">
                     <button>Like</button>
                 </form>
+                <a href="/tweets/<%= tweet._id %>/edit">Edit</a>
             </li>
         <% } %>
     </ul>
