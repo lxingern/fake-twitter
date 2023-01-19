@@ -8,5 +8,10 @@
 </head>
 <body>
     <h1>Fake Twitter</h1>
+    <ul>
+        <% for (let tweet of tweets) { %>
+            <li><%= tweet.text %> - Likes: <%= tweet.likes %></li>
+        <% } %>
+    </ul>
 </body>
 </html>
