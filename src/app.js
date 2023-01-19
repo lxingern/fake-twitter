@@ -12,7 +12,7 @@ app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs')
 app.set('views', viewsPath)
 
-app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/tweets', async (req, res) => {
     try {
@@ -28,7 +28,7 @@ app.post('/tweets', async (req, res) => {
     const tweet = new Tweet(req.body)
     try {
         await tweet.save()
-        res.status(201).send(tweet)
+        res.redirect('/tweets')
     } catch (e) {
         res.status(500).send(e)
     }
