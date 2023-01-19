@@ -9,5 +9,15 @@
 <body>
     <p><%= tweet.text %></p>
     <span><%= tweet.likes %> likes</span>
+    
+    <form action="/tweets/<%= tweet._id %>?_method=PATCH" method="POST">
+        <button>Like</button>
+    </form>
+
+    <a href="/tweets/<%= tweet._id %>/edit">Edit</a>
+
+    <form action="/tweets/<%= tweet._id %>?_method=DELETE" method="POST">
+        <button>Delete</button>
+    </form>
 </body>
 </html>
