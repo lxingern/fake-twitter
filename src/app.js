@@ -14,8 +14,14 @@ app.set('views', viewsPath)
 
 app.use(express.json())
 
-app.get('', (req, res) => {
-    res.render('index')
+app.get('/tweets', async (req, res) => {
+    try {
+        const tweets = await Tweet.find({})
+        // res.status(200).send(tweets)
+        res.render('index', { tweets })
+    } catch (e) {
+        res.status(500).send(e)
+    }
 })
 
 app.post('/tweets', async (req, res) => {
