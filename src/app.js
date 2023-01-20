@@ -3,6 +3,7 @@ const express = require('express')
 require('./db/mongoose')
 const ejsMate = require('ejs-mate')
 const methodOverride = require('method-override')
+const dayjs = require('dayjs')
 const Tweet = require('./models/tweet')
 
 const app = express()
@@ -28,7 +29,8 @@ app.get('/tweets/:id', async (req, res) => {
     if (!tweet) {
         res.send('That tweet does not exist!')
     }
-    res.render('show', { tweet })
+    const createdAt = dayjs(tweet.createdAt).format('h:mm A · MMM D, YYYY')
+    res.render('show', { tweet, createdAt })
 })
 
 app.get('/tweets/:id/edit', async (req, res) => {
