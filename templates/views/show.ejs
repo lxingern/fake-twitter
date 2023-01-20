@@ -5,20 +5,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/output.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/140b4bcdad.js" crossorigin="anonymous"></script>
     <title>Fake Twitter</title>
 </head>
 <body>
-    <p><%= tweet.text %></p>
-    <span><%= tweet.likes %> likes</span>
-    
-    <form action="/tweets/<%= tweet._id %>?_method=PATCH" method="POST">
-        <button>Like</button>
-    </form>
+    <div class="h-screen max-w-xl mx-auto py-3 border-x border-gray-200">
+        <h1 class="text-3xl font-bold pb-6 px-3">
+            <a href="/tweets" class="mr-5 text-xl"><i class="fa-solid fa-arrow-left"></i></a>
+            <span>Tweet</span>
+        </h1>
 
-    <a href="/tweets/<%= tweet._id %>/edit">Edit</a>
+        <div class="py-3 px-3">
+            <p class="px-2 pb-5 mb-3 text-3xl border-b border-gray-200"><%= tweet.text %></p>
 
-    <form action="/tweets/<%= tweet._id %>?_method=DELETE" method="POST">
-        <button>Delete</button>
-    </form>
+            <div class="flex flex-row justify-between text-xl pb-3 px-2 border-b border-gray-200">
+                <div>
+                    <form class="inline-block mr-2" action="/tweets/<%= tweet._id %>?_method=PATCH" method="POST">
+                        <button><i class="fa-regular fa-heart text-gray-600"></i></button>
+                    </form>
+                    <span class="inline-block text-gray-600"><%= tweet.likes %></span>
+                </div>
+                
+                <div>
+                    <a class="inline-block mr-2" href="/tweets/<%= tweet._id %>/edit"><i class="fa-regular fa-pen-to-square text-gray-600"></i></a>
+
+                    <form class="inline-block" action="/tweets/<%= tweet._id %>?_method=DELETE" method="POST">
+                        <button><i class="fa-regular fa-trash-can text-gray-600"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
