@@ -4,7 +4,11 @@ require('./db/mongoose')
 const ejsMate = require('ejs-mate')
 const methodOverride = require('method-override')
 const dayjs = require('dayjs')
+const session = require('express-session')
+const passport = require('passport')
+const LocalStrategy = require('passport-local')
 const Tweet = require('./models/tweet')
+const User = require('./models/user')
 
 const app = express()
 
@@ -18,6 +22,22 @@ app.set('views', viewsPath)
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'))
 app.use(express.static(publicDirectoryPath))
+
+const sessionConfig = {
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + (1000 * 60 * 60 * 24 * 7),
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+}
+app.use(session(sessionConfig))
+
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(new LocalStrategy(User.authenticate()))
 
 app.get('/tweets', async (req, res) => {
     const tweets = await Tweet.find({})
