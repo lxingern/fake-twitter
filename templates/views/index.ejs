@@ -19,6 +19,7 @@
         
         <% for (let tweet of tweets) { %> 
             <div class="py-3 px-5 border-b border-gray-200">
+                <h2>@<%= tweet.author.username %></h2>
                 <a href="/tweets/<%= tweet._id %>">
                     <p class="mb-3"><%= tweet.text %></p>
                 </a>
