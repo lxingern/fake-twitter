@@ -44,16 +44,23 @@ passport.use(new LocalStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user
+    next()
+})
+
 app.get('/register', (req, res) => {
     res.render('users/register')
 })
 
-app.post('/register', async (req, res) => {
+app.post('/register', async (req, res, next) => {
     const { email, username, password } = req.body
     const user = new User({ email, username })
     const registeredUser = await User.register(user, password)
-    console.log(registeredUser)
-    res.redirect('/tweets')
+    req.login(registeredUser, err => {
+        if (err) return next(err)
+        res.redirect('/tweets')
+    })
 })
 
 app.get('/login', (req, res) => {
@@ -65,8 +72,8 @@ app.post('/login', passport.authenticate('local', { failureFlash: true, failureR
 })
 
 app.get('/logout', (req, res) => {
-    req.logout(function(err) {
-        return res.redirect('/login');
+    req.logout(err => {
+        res.redirect('/login');
     })
 })
 
