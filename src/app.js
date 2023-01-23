@@ -10,6 +10,7 @@ const LocalStrategy = require('passport-local')
 const Tweet = require('./models/tweet')
 const User = require('./models/user')
 const { isLoggedIn } = require('./middleware')
+const { Router } = require('express')
 
 const app = express()
 
@@ -61,6 +62,12 @@ app.get('/login', (req, res) => {
 
 app.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
     res.redirect('/tweets')
+})
+
+app.get('/logout', (req, res) => {
+    req.logout(function(err) {
+        return res.redirect('/login');
+    })
 })
 
 app.get('/tweets', isLoggedIn, async (req, res) => {
