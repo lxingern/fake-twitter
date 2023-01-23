@@ -45,7 +45,6 @@ passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
 app.use((req, res, next) => {
-    console.log(req.session)
     res.locals.currentUser = req.user
     next()
 })
@@ -83,12 +82,13 @@ app.get('/logout', (req, res) => {
 })
 
 app.get('/tweets', isLoggedIn, async (req, res) => {
-    const tweets = await Tweet.find({})
+    const tweets = await Tweet.find({}).populate('author')
+    console.log(tweets)
     res.render('index', { tweets })
 })
 
 app.get('/tweets/:id', isLoggedIn, async (req, res) => {
-    const tweet = await Tweet.findById(req.params.id)
+    const tweet = await Tweet.findById(req.params.id).populate('author')
     if (!tweet) {
         res.send('That tweet does not exist!')
     }
@@ -103,6 +103,7 @@ app.get('/tweets/:id/edit', isLoggedIn, async (req, res) => {
 
 app.post('/tweets', isLoggedIn, async (req, res) => {
     const tweet = new Tweet(req.body)
+    tweet.author = req.user._id
     await tweet.save()
     res.redirect('/tweets')
 })
