@@ -83,7 +83,6 @@ app.get('/logout', (req, res) => {
 
 app.get('/tweets', isLoggedIn, async (req, res) => {
     const tweets = await Tweet.find({}).populate('author')
-    console.log(tweets)
     res.render('index', { tweets })
 })
 

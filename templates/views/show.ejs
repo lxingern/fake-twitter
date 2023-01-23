@@ -29,6 +29,7 @@
                     <span class="inline-block text-gray-600"><%= tweet.likes %></span>
                 </div>
                 
+                <% if (currentUser && tweet.author.equals(currentUser)) { %>
                 <div>
                     <a class="inline-block mr-2" href="/tweets/<%= tweet._id %>/edit"><i class="fa-regular fa-pen-to-square text-gray-600"></i></a>
 
@@ -36,6 +37,7 @@
                         <button><i class="fa-regular fa-trash-can text-gray-600"></i></button>
                     </form>
                 </div>
+                <% } %>
             </div>
         </div>
     </div>
