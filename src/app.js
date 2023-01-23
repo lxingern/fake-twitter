@@ -9,6 +9,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const Tweet = require('./models/tweet')
 const User = require('./models/user')
+const { isLoggedIn } = require('./middleware')
 
 const app = express()
 
@@ -62,12 +63,12 @@ app.post('/login', passport.authenticate('local', { failureFlash: true, failureR
     res.redirect('/tweets')
 })
 
-app.get('/tweets', async (req, res) => {
+app.get('/tweets', isLoggedIn, async (req, res) => {
     const tweets = await Tweet.find({})
     res.render('index', { tweets })
 })
 
-app.get('/tweets/:id', async (req, res) => {
+app.get('/tweets/:id', isLoggedIn, async (req, res) => {
     const tweet = await Tweet.findById(req.params.id)
     if (!tweet) {
         res.send('That tweet does not exist!')
@@ -76,18 +77,18 @@ app.get('/tweets/:id', async (req, res) => {
     res.render('show', { tweet, createdAt })
 })
 
-app.get('/tweets/:id/edit', async (req, res) => {
+app.get('/tweets/:id/edit', isLoggedIn, async (req, res) => {
     const tweet = await Tweet.findById(req.params.id)
     res.render('edit', { tweet })
 })
 
-app.post('/tweets', async (req, res) => {
+app.post('/tweets', isLoggedIn, async (req, res) => {
     const tweet = new Tweet(req.body)
     await tweet.save()
     res.redirect('/tweets')
 })
 
-app.patch('/tweets/:id', async (req, res) => {
+app.patch('/tweets/:id', isLoggedIn, async (req, res) => {
     if (req.body.text) {
         const tweet = await Tweet.findByIdAndUpdate(req.params.id, { text: req.body.text })
         await tweet.save()
@@ -98,7 +99,7 @@ app.patch('/tweets/:id', async (req, res) => {
     res.redirect('/tweets')
 })
 
-app.delete('/tweets/:id', async (req, res) => {
+app.delete('/tweets/:id', isLoggedIn, async (req, res) => {
     await Tweet.findByIdAndRemove(req.params.id)
     res.redirect('/tweets')
 })
