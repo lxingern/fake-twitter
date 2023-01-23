@@ -39,6 +39,21 @@ app.use(passport.initialize())
 app.use(passport.session())
 passport.use(new LocalStrategy(User.authenticate()))
 
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
+
+app.get('/register', (req, res) => {
+    res.render('users/register')
+})
+
+app.post('/register', async (req, res) => {
+    const { email, username, password } = req.body
+    const user = new User({email, username})
+    const registeredUser = await User.register(user, password)
+    console.log(registeredUser)
+    res.redirect('/tweets')
+})
+
 app.get('/tweets', async (req, res) => {
     const tweets = await Tweet.find({})
     res.render('index', { tweets })
