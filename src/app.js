@@ -48,9 +48,17 @@ app.get('/register', (req, res) => {
 
 app.post('/register', async (req, res) => {
     const { email, username, password } = req.body
-    const user = new User({email, username})
+    const user = new User({ email, username })
     const registeredUser = await User.register(user, password)
     console.log(registeredUser)
+    res.redirect('/tweets')
+})
+
+app.get('/login', (req, res) => {
+    res.render('users/login')
+})
+
+app.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
     res.redirect('/tweets')
 })
 
