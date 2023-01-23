@@ -9,7 +9,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const Tweet = require('./models/tweet')
 const User = require('./models/user')
-const { isLoggedIn } = require('./middleware')
+const { isLoggedIn, checkReturnTo } = require('./middleware')
 const { Router } = require('express')
 
 const app = express()
@@ -45,6 +45,7 @@ passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
 app.use((req, res, next) => {
+    console.log(req.session)
     res.locals.currentUser = req.user
     next()
 })
@@ -64,11 +65,15 @@ app.post('/register', async (req, res, next) => {
 })
 
 app.get('/login', (req, res) => {
+    if (req.query.returnTo) {
+        req.session.returnTo = req.query.returnTo
+    }
     res.render('users/login')
 })
 
-app.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
-    res.redirect('/tweets')
+app.post('/login', checkReturnTo, passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
+    const redirectUrl = res.locals.returnTo || '/tweets'
+    res.redirect(redirectUrl)
 })
 
 app.get('/logout', (req, res) => {
