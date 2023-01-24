@@ -74,7 +74,8 @@ app.get('/login', (req, res) => {
     res.render('users/login')
 })
 
-app.post('/login', checkReturnTo, passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
+app.post('/login', checkReturnTo, passport.authenticate('local', { failureRedirect: '/login' }), (req, res) => {
+    // failureFlash: true
     const redirectUrl = res.locals.returnTo || '/tweets'
     res.redirect(redirectUrl)
 })
