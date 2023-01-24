@@ -49,6 +49,10 @@ app.use((req, res, next) => {
     next()
 })
 
+app.get('/', (req, res) => {
+    res.redirect('/tweets')
+})
+
 app.get('/register', (req, res) => {
     res.render('users/register')
 })

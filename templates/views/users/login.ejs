@@ -4,16 +4,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/output.css" rel="stylesheet">
     <title>Login</title>
 </head>
 <body>
-    <h1>Login</h1>
-    <form action="/login" method="POST">
-        <label for="username">Username</label>
-        <input type="username" id="username" name="username" required>
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
-        <button>Login</button>
-    </form>
+    <div class="h-screen flex justify-center items-center">
+        <div class="flex flex-col items-center">
+            <h1 class="text-4xl font-bold mb-5">Sign in to Twitter</h1>
+            <form action="/login" method="POST" class="flex flex-col items-center">
+                <input class="border rounded border-transparent outline outline-1 outline-gray-200 p-3 w-80 mb-4 focus:outline-sky-400 focus:outline-2" type="username" id="username" name="username" placeholder="Username" required>
+                <input class="border rounded border-transparent outline outline-1 outline-gray-200 p-3 w-80 mb-4 focus:outline-sky-400 focus:outline-2" type="password" id="password" name="password" placeholder="Password" required>
+                <button class="transition-colors border rounded-full bg-black hover:bg-gray-800 text-white font-bold p-3 w-80 mb-4">Log in</button>
+            </form>
+            <p>Don't have an account? <a href="/register" class="text-sky-400 hover:underline">Sign up</a></p>
+        </div>
+    </div>
 </body>
 </html>
