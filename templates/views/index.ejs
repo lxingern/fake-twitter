@@ -9,40 +9,51 @@
     <title>Fake Twitter</title>
 </head>
 <body>
-    <div class="h-screen max-w-xl mx-auto py-3 border-x border-gray-200">
-        <h1 class="text-3xl font-bold mb-6 px-3">Home</h1>
-        
-        <form class="py-2 px-4 border-y border-gray-200" action="/tweets" method="POST">
-            <textarea class="text-xl p-2 block w-full h-16 mb-2 focus:outline-none" name="text" placeholder="What's happening?" maxlength="280" autocomplete="off" required></textarea>
-            <button class="bg-sky-500 py-1.5 px-4 rounded-3xl text-white ml-auto block">Tweet</button>
-        </form>
-        
-        <% for (let tweet of tweets) { %> 
-            <div class="py-3 px-5 border-b border-gray-200">
-                <h2>@<%= tweet.author.username %></h2>
-                <a href="/tweets/<%= tweet._id %>">
-                    <p class="mb-3"><%= tweet.text %></p>
-                </a>
-                <div class="flex flex-row justify-between">
-                    <div>
-                        <form class="inline-block mr-2" action="/tweets/<%= tweet._id %>?_method=PATCH" method="POST">
-                            <button><i class="fa-regular fa-heart text-gray-600"></i></button>
-                        </form>
-                        <span class="inline-block text-gray-600"><%= tweet.likes %></span>
-                    </div>
-                    <% if (currentUser && tweet.author.equals(currentUser)) { %>
-                    <div>
-                        <a class="inline-block mr-2" href="/tweets/<%= tweet._id %>/edit"><i class="fa-regular fa-pen-to-square text-gray-600"></i></a>
-
-                        <form class="inline-block" action="/tweets/<%= tweet._id %>?_method=DELETE" method="POST">
-                            <button><i class="fa-regular fa-trash-can text-gray-600"></i></button>
-                        </form>
-                    </div>
-                    <% } %>
+    <div class="flex justify-center">
+        <section class="w-2/12 py-3">
+            <div class="flex justify-between items-center px-3">
+                <div class="flex items-center">
+                    <img class="mr-3" style="width: 48px" src="images/no-profile-picture.png" alt="">
+                    <h2 class="font-bold text-lg">@<%= currentUser.username %></h2>
                 </div>
+                <a class="flex flex-col justify-center transition-colors border rounded-full bg-black hover:bg-gray-800 text-white text-sm font-bold py-2 px-3" href="/logout">Log out</a>
             </div>
-        <% } %>
-    </div>
+        </section>
+        <section class="h-screen w-2/6 py-3 border-x border-gray-200">
+            <h1 class="text-3xl font-bold mb-6 px-3">Home</h1>
+            
+            <form class="py-2 px-4 border-y border-gray-200" action="/tweets" method="POST">
+                <textarea class="text-xl p-2 block w-full h-16 mb-2 focus:outline-none" name="text" placeholder="What's happening?" maxlength="280" autocomplete="off" required></textarea>
+                <button class="bg-sky-500 py-1.5 px-4 rounded-3xl text-white ml-auto block">Tweet</button>
+            </form>
+            
+            <% for (let tweet of tweets) { %> 
+                <div class="py-3 px-5 border-b border-gray-200">
+                    <h2>@<%= tweet.author.username %></h2>
+                    <a href="/tweets/<%= tweet._id %>">
+                        <p class="mb-3"><%= tweet.text %></p>
+                    </a>
+                    <div class="flex flex-row justify-between">
+                        <div>
+                            <form class="inline-block mr-2" action="/tweets/<%= tweet._id %>?_method=PATCH" method="POST">
+                                <button><i class="fa-regular fa-heart text-gray-600"></i></button>
+                            </form>
+                            <span class="inline-block text-gray-600"><%= tweet.likes %></span>
+                        </div>
+                        <% if (currentUser && tweet.author.equals(currentUser)) { %>
+                        <div>
+                            <a class="inline-block mr-2" href="/tweets/<%= tweet._id %>/edit"><i class="fa-regular fa-pen-to-square text-gray-600"></i></a>
     
+                            <form class="inline-block" action="/tweets/<%= tweet._id %>?_method=DELETE" method="POST">
+                                <button><i class="fa-regular fa-trash-can text-gray-600"></i></button>
+                            </form>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+            <% } %>
+        </section>
+        <section class="w-2/12"></section>
+    </div>
 </body>
 </html>
