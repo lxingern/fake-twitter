@@ -9,38 +9,50 @@
     <title>Fake Twitter</title>
 </head>
 <body>
-    <div class="h-screen max-w-xl mx-auto py-3 border-x border-gray-200">
-        <h1 class="text-3xl font-bold pb-6 px-3">
-            <a href="/tweets" class="mr-5 text-xl"><i class="fa-solid fa-arrow-left"></i></a>
-            <span>Tweet</span>
-        </h1>
-
-        <div class="py-3 px-3">
-            <h2>@<%= tweet.author.username %></h2>
-            <div class="px-2 pb-5 mb-3 border-b border-gray-200">
-                <p class="text-3xl pb-4"><%= tweet.text %></p>
-                <span class="text-gray-500"><%= createdAt %></span>
-            </div>
-        
-            <div class="flex flex-row justify-between text-xl pb-3 px-2 border-b border-gray-200">
-                <div>
-                    <form class="inline-block mr-2" action="/tweets/<%= tweet._id %>?_method=PATCH" method="POST">
-                        <button><i class="fa-regular fa-heart text-gray-600"></i></button>
-                    </form>
-                    <span class="inline-block text-gray-600"><%= tweet.likes %></span>
+    <div class="flex justify-center">
+        <section class="w-2/12 py-3">
+            <div class="flex justify-between items-center px-3">
+                <div class="flex items-center">
+                    <img class="mr-3" style="width: 48px" src="images/no-profile-picture.png" alt="">
+                    <h2 class="font-bold text-lg">@<%= currentUser.username %></h2>
                 </div>
-                
-                <% if (currentUser && tweet.author.equals(currentUser)) { %>
-                <div>
-                    <a class="inline-block mr-2" href="/tweets/<%= tweet._id %>/edit"><i class="fa-regular fa-pen-to-square text-gray-600"></i></a>
-
-                    <form class="inline-block" action="/tweets/<%= tweet._id %>?_method=DELETE" method="POST">
-                        <button><i class="fa-regular fa-trash-can text-gray-600"></i></button>
-                    </form>
-                </div>
-                <% } %>
+                <a class="flex flex-col justify-center transition-colors border rounded-full bg-black hover:bg-gray-800 text-white text-sm font-bold py-2 px-3" href="/logout">Log out</a>
             </div>
-        </div>
+        </section>
+        <section class="min-h-screen w-2/6 py-3 border-x border-gray-200">
+            <h1 class="text-3xl font-bold pb-6 px-3">
+                <a href="/tweets" class="mr-5 text-xl"><i class="fa-solid fa-arrow-left"></i></a>
+                <span>Tweet</span>
+            </h1>
+    
+            <div class="py-3 px-3">
+                <h2 class="px-2 mb-1 font-medium">@<%= tweet.author.username %></h2>
+                <div class="px-2 pb-5 mb-3 border-b border-gray-200">
+                    <p class="text-3xl pb-4"><%= tweet.text %></p>
+                    <span class="text-gray-500"><%= createdAt %></span>
+                </div>
+            
+                <div class="flex flex-row justify-between text-xl pb-3 px-2 border-b border-gray-200">
+                    <div>
+                        <form class="inline-block mr-2" action="/tweets/<%= tweet._id %>?_method=PATCH" method="POST">
+                            <button><i class="fa-regular fa-heart text-gray-600"></i></button>
+                        </form>
+                        <span class="inline-block text-gray-600"><%= tweet.likes %></span>
+                    </div>
+                    
+                    <% if (currentUser && tweet.author.equals(currentUser)) { %>
+                    <div>
+                        <a class="inline-block mr-2" href="/tweets/<%= tweet._id %>/edit"><i class="fa-regular fa-pen-to-square text-gray-600"></i></a>
+    
+                        <form class="inline-block" action="/tweets/<%= tweet._id %>?_method=DELETE" method="POST">
+                            <button><i class="fa-regular fa-trash-can text-gray-600"></i></button>
+                        </form>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+        </section>
+        <section class="w-2/12"></section>
     </div>
 </body>
 </html>

@@ -19,7 +19,7 @@
                 <a class="flex flex-col justify-center transition-colors border rounded-full bg-black hover:bg-gray-800 text-white text-sm font-bold py-2 px-3" href="/logout">Log out</a>
             </div>
         </section>
-        <section class="h-screen w-2/6 py-3 border-x border-gray-200">
+        <section class="min-h-screen w-2/6 py-3 border-x border-gray-200">
             <h1 class="text-3xl font-bold mb-6 px-3">Home</h1>
             
             <form class="py-2 px-4 border-y border-gray-200" action="/tweets" method="POST">
@@ -30,7 +30,7 @@
             <% for (let tweet of tweets) { %> 
                 <div class="py-3 px-5 border-b border-gray-200">
                     <div class="flex items-center justify-between">
-                        <h2 class="font-bold mb-1">@<%= tweet.author.username %></h2>
+                        <h2 class="font-medium mb-1">@<%= tweet.author.username %></h2>
                         <span class="text-sm text-gray-600"><%= tweet.timestamp %></span>
                     </div>
                     <a href="/tweets/<%= tweet._id %>">
