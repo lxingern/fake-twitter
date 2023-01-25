@@ -12,6 +12,7 @@ const User = require('./models/user')
 const { isLoggedIn, checkReturnTo, isAuthor } = require('./middleware')
 const { Router } = require('express')
 const catchAsync = require('./utils/catchAsync')
+const ExpressError = require('./utils/ExpressError')
 
 const app = express()
 
@@ -110,6 +111,7 @@ app.get('/tweets/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) =>
 }))
 
 app.post('/tweets', isLoggedIn, catchAsync(async (req, res) => {
+    // if (!req.body) throw new ExpressError('Invalid tweet!', 400)
     const tweet = new Tweet(req.body)
     tweet.author = req.user._id
     await tweet.save()
@@ -137,8 +139,14 @@ app.delete('/tweets/:id', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
     res.redirect('/tweets')
 }))
 
+app.all('*', (req, res, next) => {
+    next(new ExpressError('Page Not Found', 404))
+})
+
 app.use((err, req, res, next) => {
-    res.send('Something went wrong!')
+    const { statusCode = 500 } = err
+    if (!err.message) err.message = 'Something went wrong!'
+    res.status(statusCode).render('error', { err })
 })
 
 app.listen(3000, () => {
