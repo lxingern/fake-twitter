@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const passport = require('passport')
+const multer = require('multer')
+const { storage } = require('../cloudinary')
+const upload = multer({ storage })
 const catchAsync = require('../utils/catchAsync')
 const { checkReturnTo } = require('../middleware')
 const User = require('../models/user')
@@ -38,5 +41,14 @@ router.get('/logout', (req, res) => {
         res.redirect('/login');
     })
 })
+
+router.get('/users/myavatar', (req, res) => {
+    res.render('users/uploadavatar')
+})
+
+router.post('/users/myavatar', upload.single('avatar'), (req, res) => {
+    console.log(req.file)
+    res.send('it worked')
+}) 
 
 module.exports = router
