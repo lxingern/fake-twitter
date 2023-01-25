@@ -11,6 +11,7 @@ const Tweet = require('./models/tweet')
 const User = require('./models/user')
 const { isLoggedIn, checkReturnTo, isAuthor } = require('./middleware')
 const { Router } = require('express')
+const catchAsync = require('./utils/catchAsync')
 
 const app = express()
 
@@ -57,7 +58,7 @@ app.get('/register', (req, res) => {
     res.render('users/register')
 })
 
-app.post('/register', async (req, res, next) => {
+app.post('/register', catchAsync(async (req, res, next) => {
     const { email, username, password } = req.body
     const user = new User({ email, username })
     const registeredUser = await User.register(user, password)
@@ -65,7 +66,7 @@ app.post('/register', async (req, res, next) => {
         if (err) return next(err)
         res.redirect('/tweets')
     })
-})
+}))
 
 app.get('/login', (req, res) => {
     if (req.query.returnTo) {
@@ -86,36 +87,36 @@ app.get('/logout', (req, res) => {
     })
 })
 
-app.get('/tweets', isLoggedIn, async (req, res) => {
+app.get('/tweets', isLoggedIn, catchAsync(async (req, res) => {
     const tweets = await Tweet.find({}).populate('author')
     res.render('index', { tweets })
-})
+}))
 
-app.get('/tweets/:id', isLoggedIn, async (req, res) => {
+app.get('/tweets/:id', isLoggedIn, catchAsync(async (req, res) => {
     const tweet = await Tweet.findById(req.params.id).populate('author')
     if (!tweet) {
         res.send('That tweet does not exist!')
     }
     const createdAt = dayjs(tweet.createdAt).format('h:mm A · MMM D, YYYY')
     res.render('show', { tweet, createdAt })
-})
+}))
 
-app.get('/tweets/:id/edit', isLoggedIn, isAuthor, async (req, res) => {
+app.get('/tweets/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
     const tweet = await Tweet.findById(req.params.id)
     if (!tweet) {
         res.send('That tweet does not exist!')
     }
     res.render('edit', { tweet })
-})
+}))
 
-app.post('/tweets', isLoggedIn, async (req, res) => {
+app.post('/tweets', isLoggedIn, catchAsync(async (req, res) => {
     const tweet = new Tweet(req.body)
     tweet.author = req.user._id
     await tweet.save()
     res.redirect('/tweets')
-})
+}))
 
-app.patch('/tweets/:id', isLoggedIn, async (req, res) => {
+app.patch('/tweets/:id', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params
     if (req.body.text) {
         const tweet = await Tweet.findById(id)
@@ -129,11 +130,15 @@ app.patch('/tweets/:id', isLoggedIn, async (req, res) => {
         await tweet.save()
     }
     res.redirect('/tweets')
-})
+}))
 
-app.delete('/tweets/:id', isLoggedIn, isAuthor, async (req, res) => {
+app.delete('/tweets/:id', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
     await Tweet.findByIdAndRemove(req.params.id)
     res.redirect('/tweets')
+}))
+
+app.use((err, req, res, next) => {
+    res.send('Something went wrong!')
 })
 
 app.listen(3000, () => {
