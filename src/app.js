@@ -3,16 +3,13 @@ const express = require('express')
 require('./db/mongoose')
 const ejsMate = require('ejs-mate')
 const methodOverride = require('method-override')
-const dayjs = require('dayjs')
 const session = require('express-session')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
-const Tweet = require('./models/tweet')
 const User = require('./models/user')
-const { isLoggedIn, checkReturnTo, isAuthor } = require('./middleware')
-const { Router } = require('express')
-const catchAsync = require('./utils/catchAsync')
 const ExpressError = require('./utils/ExpressError')
+const users = require('./routes/users')
+const tweets = require('./routes/tweets')
 
 const app = express()
 
@@ -51,93 +48,12 @@ app.use((req, res, next) => {
     next()
 })
 
+app.use('', users)
+app.use('/tweets', tweets)
+
 app.get('/', (req, res) => {
     res.redirect('/tweets')
 })
-
-app.get('/register', (req, res) => {
-    res.render('users/register')
-})
-
-app.post('/register', catchAsync(async (req, res, next) => {
-    const { email, username, password } = req.body
-    const user = new User({ email, username })
-    const registeredUser = await User.register(user, password)
-    req.login(registeredUser, err => {
-        if (err) return next(err)
-        res.redirect('/tweets')
-    })
-}))
-
-app.get('/login', (req, res) => {
-    if (req.query.returnTo) {
-        req.session.returnTo = req.query.returnTo
-    }
-    res.render('users/login')
-})
-
-app.post('/login', checkReturnTo, passport.authenticate('local', { failureRedirect: '/login' }), (req, res) => {
-    // failureFlash: true
-    const redirectUrl = res.locals.returnTo || '/tweets'
-    res.redirect(redirectUrl)
-})
-
-app.get('/logout', (req, res) => {
-    req.logout(err => {
-        res.redirect('/login');
-    })
-})
-
-app.get('/tweets', isLoggedIn, catchAsync(async (req, res) => {
-    const tweets = await Tweet.find({}).populate('author')
-    res.render('index', { tweets })
-}))
-
-app.get('/tweets/:id', isLoggedIn, catchAsync(async (req, res) => {
-    const tweet = await Tweet.findById(req.params.id).populate('author')
-    if (!tweet) {
-        res.send('That tweet does not exist!')
-    }
-    const createdAt = dayjs(tweet.createdAt).format('h:mm A · MMM D, YYYY')
-    res.render('show', { tweet, createdAt })
-}))
-
-app.get('/tweets/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
-    const tweet = await Tweet.findById(req.params.id)
-    if (!tweet) {
-        res.send('That tweet does not exist!')
-    }
-    res.render('edit', { tweet })
-}))
-
-app.post('/tweets', isLoggedIn, catchAsync(async (req, res) => {
-    // if (!req.body) throw new ExpressError('Invalid tweet!', 400)
-    const tweet = new Tweet(req.body)
-    tweet.author = req.user._id
-    await tweet.save()
-    res.redirect('/tweets')
-}))
-
-app.patch('/tweets/:id', isLoggedIn, catchAsync(async (req, res) => {
-    const { id } = req.params
-    if (req.body.text) {
-        const tweet = await Tweet.findById(id)
-        if (!tweet.author.equals(req.user._id)) {
-            return res.redirect(`/tweets/${id}`)
-        }
-        const updatedTweet = await Tweet.findByIdAndUpdate(id, { text: req.body.text })
-        await updatedTweet.save()
-    } else {
-        const tweet = await Tweet.findByIdAndUpdate(id, { $inc: { likes: 1 } })
-        await tweet.save()
-    }
-    res.redirect('/tweets')
-}))
-
-app.delete('/tweets/:id', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
-    await Tweet.findByIdAndRemove(req.params.id)
-    res.redirect('/tweets')
-}))
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
