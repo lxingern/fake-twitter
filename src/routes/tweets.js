@@ -6,7 +6,17 @@ const { isLoggedIn, isAuthor } = require('../middleware')
 const Tweet = require('../models/tweet')
 
 router.get('/', isLoggedIn, catchAsync(async (req, res) => {
-    const tweets = await Tweet.find({}).populate('author')
+    const tweets = await Tweet.find({}).populate('author').sort({ createdAt: -1 }).lean()
+    tweets.forEach((tweet) => {
+        const sinceCreated = Date.now() - tweet.createdAt
+        if (sinceCreated < 1000 * 60 * 60) {
+            tweet.timestamp = `${Math.floor(sinceCreated / (1000 * 60))}m`
+        } else if (sinceCreated < 1000 * 60 * 60 * 24) {
+            tweet.timestamp = `${Math.floor(sinceCreated / (1000 * 60 * 60))}h`
+        } else {
+            tweet.timestamp = dayjs(tweet.createdAt).format('D MMM')
+        }
+    })
     res.render('index', { tweets })
 }))
 

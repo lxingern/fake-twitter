@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/output.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/140b4bcdad.js" crossorigin="anonymous"></script>
-    <title>Fake Twitter</title>
+    <title>Simple Twitter</title>
 </head>
 <body>
     <div class="flex justify-center">
@@ -29,7 +29,10 @@
             
             <% for (let tweet of tweets) { %> 
                 <div class="py-3 px-5 border-b border-gray-200">
-                    <h2>@<%= tweet.author.username %></h2>
+                    <div class="flex items-center justify-between">
+                        <h2 class="font-bold mb-1">@<%= tweet.author.username %></h2>
+                        <span class="text-sm text-gray-600"><%= tweet.timestamp %></span>
+                    </div>
                     <a href="/tweets/<%= tweet._id %>">
                         <p class="mb-3"><%= tweet.text %></p>
                     </a>
@@ -40,7 +43,7 @@
                             </form>
                             <span class="inline-block text-gray-600"><%= tweet.likes %></span>
                         </div>
-                        <% if (currentUser && tweet.author.equals(currentUser)) { %>
+                        <% if (currentUser && tweet.author._id.equals(currentUser._id)) { %>
                         <div>
                             <a class="inline-block mr-2" href="/tweets/<%= tweet._id %>/edit"><i class="fa-regular fa-pen-to-square text-gray-600"></i></a>
     
