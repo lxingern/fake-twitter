@@ -23,11 +23,11 @@ router.get('/login', (req, res) => {
     if (req.query.returnTo) {
         req.session.returnTo = req.query.returnTo
     }
-    res.render('users/login')
+    res.render('users/login', { loginErrors: req.session.messages || [] })
+    req.session.messages = []
 })
 
-router.post('/login', checkReturnTo, passport.authenticate('local', { failureRedirect: '/login' }), (req, res) => {
-    // failureFlash: true
+router.post('/login', checkReturnTo, passport.authenticate('local', { failureRedirect: '/login', failureMessage: 'Invalid username or password.' }), (req, res) => {
     const redirectUrl = res.locals.returnTo || '/tweets'
     res.redirect(redirectUrl)
 })
