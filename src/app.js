@@ -18,7 +18,7 @@ const tweets = require('./routes/tweets')
 const app = express()
 
 const publicDirectoryPath = path.join(__dirname, '../public')
-const viewsPath = path.join(__dirname, '../templates/views')
+const viewsPath = path.join(__dirname, '../views')
 
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs')
