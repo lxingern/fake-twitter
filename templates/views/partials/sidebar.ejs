@@ -1,0 +1,9 @@
+<section class="w-2/12 py-3">
+    <div class="flex justify-between items-center px-3">
+        <div class="flex items-center">
+            <img class="mr-2 rounded-full" style="width: 48px; height: 48px" src="<%= currentUser.image.url ? currentUser.image.url : 'images/no-profile-picture.png' %>" alt="">
+            <h2 class="font-bold text-lg">@<%= currentUser.username %></h2>
+        </div>
+        <a class="flex flex-col justify-center transition-colors border rounded-full bg-black hover:bg-gray-800 text-white text-sm font-bold py-2 px-3" href="/logout">Log out</a>
+    </div>
+</section>
