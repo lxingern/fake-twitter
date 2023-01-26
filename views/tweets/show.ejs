@@ -7,8 +7,11 @@
             <span>Tweet</span>
         </h1>
 
-        <div class="py-3 px-3">
-            <h2 class="px-2 mb-1 font-medium">@<%= tweet.author.username %></h2>
+        <div class="px-3">
+            <div class="flex items-center mb-2">
+                <img class="rounded-full" style="width: 48px; height: 48px" src="<%= tweet.author.image.url ? tweet.author.image.url : 'images/no-profile-picture.png' %>" alt="">
+                <h2 class="px-2 mb-1 font-medium">@<%= tweet.author.username %></h2>
+            </div>
             <div class="px-2 pb-5 mb-3 border-b border-gray-200">
                 <p class="text-3xl pb-4"><%= tweet.text %></p>
                 <span class="text-gray-500"><%= createdAt %></span>
