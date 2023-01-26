@@ -5,7 +5,7 @@ const multer = require('multer')
 const { storage } = require('../cloudinary')
 const upload = multer({ storage })
 const catchAsync = require('../utils/catchAsync')
-const { checkReturnTo } = require('../middleware')
+const { isLoggedIn, checkReturnTo } = require('../middleware')
 const User = require('../models/user')
 
 router.get('/register', (req, res) => {
@@ -42,13 +42,19 @@ router.get('/logout', (req, res) => {
     })
 })
 
-router.get('/users/myavatar', (req, res) => {
+router.get('/myavatar', isLoggedIn, (req, res) => {
     res.render('users/uploadavatar')
 })
 
-router.post('/users/myavatar', upload.single('avatar'), (req, res) => {
-    console.log(req.file)
-    res.send('it worked')
-}) 
+router.patch('/myavatar', isLoggedIn, upload.single('avatar'), catchAsync(async (req, res) => {
+    const user = await User.findByIdAndUpdate(req.user._id, { 
+        image: {
+            url: req.file.path,
+            filename: req.file.filename
+        } 
+    })
+    await user.save()
+    res.redirect('/tweets')
+}))
 
 module.exports = router

@@ -7,7 +7,7 @@
     <title>Upload</title>
 </head>
 <body>
-    <form action="/users/myavatar" method="POST" enctype="multipart/form-data">
+    <form action="/myavatar?_method=PATCH" method="POST" enctype="multipart/form-data">
         <input type="file" name="avatar">
         <button>Upload</button>
     </form>

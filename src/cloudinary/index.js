@@ -9,8 +9,10 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
     cloudinary,
-    folder: 'SimpleTwitter',
-    allowedFormats: ['jpeg', 'jpg', 'png']
+    params: {
+        folder: 'SimpleTwitter',
+        allowedFormats: ['jpeg', 'jpg', 'png']
+    }
 })
 
 module.exports = {
