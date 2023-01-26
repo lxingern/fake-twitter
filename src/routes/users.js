@@ -9,7 +9,7 @@ const { isLoggedIn, checkReturnTo } = require('../middleware')
 const User = require('../models/user')
 
 router.get('/register', (req, res) => {
-    res.render('users/register')
+    res.render('users/register', { title: 'Sign up for Twitter' })
 })
 
 router.post('/register', catchAsync(async (req, res, next) => {
@@ -26,7 +26,7 @@ router.get('/login', (req, res) => {
     if (req.query.returnTo) {
         req.session.returnTo = req.query.returnTo
     }
-    res.render('users/login', { loginErrors: req.session.messages || [] })
+    res.render('users/login', { loginErrors: req.session.messages || [], title: 'Log in' })
     req.session.messages = []
 })
 

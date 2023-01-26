@@ -17,7 +17,7 @@ router.get('/', isLoggedIn, catchAsync(async (req, res) => {
             tweet.timestamp = dayjs(tweet.createdAt).format('D MMM')
         }
     })
-    res.render('index', { tweets })
+    res.render('index', { tweets, title: 'Simple Twitter' })
 }))
 
 router.get('/:id', isLoggedIn, catchAsync(async (req, res) => {
@@ -26,7 +26,7 @@ router.get('/:id', isLoggedIn, catchAsync(async (req, res) => {
         res.send('That tweet does not exist!')
     }
     const createdAt = dayjs(tweet.createdAt).format('h:mm A · MMM D, YYYY')
-    res.render('show', { tweet, createdAt })
+    res.render('show', { tweet, createdAt, title: 'Simple Twitter' })
 }))
 
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
