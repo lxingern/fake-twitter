@@ -23,11 +23,15 @@ textarea {
   background-color: white;
 }
 
-#modal-bg{
+#modal-bg {
   position: fixed;
   width: 100vw;
   height: 100vh;
   z-index: 1;
   background-color: rgb(55, 55, 55);
   opacity: 75%
+}
+
+#likes-hover:hover {
+  color: rgb(233, 0, 50)
 }
