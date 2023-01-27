@@ -31,7 +31,7 @@
                         </div>
                         <% if (currentUser && tweet.author._id.equals(currentUser._id)) { %>
                         <div>
-                            <a class="inline-block mr-2" href="/tweets/<%= tweet._id %>/edit"><i class="fa-regular fa-pen-to-square text-gray-600"></i></a>
+                            <i id="<%= tweet._id %>" class="edit inline-block mr-2 fa-regular fa-pen-to-square text-gray-600 cursor-pointer"></i>
     
                             <form class="inline-block" action="/tweets/<%= tweet._id %>?_method=DELETE" method="POST">
                                 <button><i class="fa-regular fa-trash-can text-gray-600"></i></button>
@@ -44,11 +44,15 @@
         <% } %>
     </section>
     <section class="w-2/12"></section>
-    <div id="modal" class="py-3 px-4 border rounded-md flex flex-col items-end">
-        <i class="fa-solid fa-xmark text-3xl text-gray-500"></i>
-        <form class="w-full" action="/tweets/<%= tweets[0]._id %>?_method=PATCH" method="POST">
-            <textarea class="text-xl w-full p-2 block h-16 mb-2 focus:outline-none" name="text" maxlength="280" autocomplete="off" required><%= tweets[0].text %></textarea>
+    <div id="modal-bg" class="hidden">
+    </div>
+    <div id="modal" class="py-3 px-4 border rounded-md flex flex-col items-end hidden">
+        <i id="close-modal-btn" class="fa-solid fa-xmark text-3xl text-gray-500 cursor-pointer"></i>
+        <form id="edit-tweet-form" class="w-full" action="/" method="POST">
+            <textarea class="text-xl w-full p-2 block h-16 mb-2 focus:outline-none" name="text" maxlength="280" autocomplete="off" required></textarea>
             <button class="bg-sky-500 py-1.5 px-4 rounded-3xl text-white ml-auto block">Edit</button>
         </form>
     </div>
 </div>
+
+<script src="js/showHideModal.js"></script>
