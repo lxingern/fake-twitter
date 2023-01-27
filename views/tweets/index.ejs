@@ -6,7 +6,7 @@
         
         <form class="py-2 px-4 border-y border-gray-200" action="/tweets" method="POST">
             <textarea class="text-xl p-2 block w-full h-16 mb-2 focus:outline-none" name="text" placeholder="What's happening?" maxlength="280" autocomplete="off" required></textarea>
-            <button class="bg-sky-500 py-1.5 px-4 rounded-3xl text-white ml-auto block hover:bg-sky-600">Tweet</button>
+            <button class="bg-sky-500 py-1.5 px-4 rounded-3xl text-white ml-auto block transition-colors hover:bg-sky-600">Tweet</button>
         </form>
         
         <% for (let tweet of tweets) { %> 
@@ -51,13 +51,31 @@
     <section class="w-2/12"></section>
     <div id="modal-bg" class="hidden">
     </div>
-    <div id="modal" class="py-3 px-4 border rounded-md flex flex-col items-end hidden">
-        <i id="close-modal-btn" class="fa-solid fa-xmark text-3xl text-gray-500 cursor-pointer"></i>
+    <div id="edit-tweet-modal" class="py-3 px-4 border rounded-md flex flex-col items-end hidden">
+        <i id="close-tweet-modal-btn" class="fa-solid fa-xmark text-3xl text-gray-500 cursor-pointer"></i>
         <form id="edit-tweet-form" class="w-full" action="/" method="POST">
             <textarea class="text-xl w-full p-2 block h-16 mb-2 focus:outline-none" name="text" maxlength="280" autocomplete="off" required></textarea>
             <button class="bg-sky-500 py-1.5 px-4 rounded-3xl text-white ml-auto block">Edit</button>
         </form>
     </div>
+
+    <div id="avatar-modal" class="p-4 hidden border rounded-md">
+        <div class="text-right"><i id="close-avatar-modal-btn" class="fa-solid fa-xmark text-3xl text-gray-500 cursor-pointer ml-auto"></i></div>
+        <h2 class="mb-2 text-xl font-bold">Upload a new avatar:</h2>
+        <form class="flex flex-col" action="/myavatar?_method=PATCH" method="POST" enctype="multipart/form-data">
+            <label class="mb-4" for="inputTag">
+                <input class="mb-4 hidden" type="file" name="avatar" id="inputTag">
+                <div class="border px-2 cursor-pointer flex items-center">
+                    <div class="border-r w-fit py-2 pr-2 h-full">
+                        Browse
+                    </div>
+                    <span class="pl-2 overflow-hidden" id="imageName"></span>
+                </div>
+            </label>   
+            <button class="ml-auto w-fit transition-colors border rounded-full bg-black hover:bg-gray-800 text-white text-sm font-bold py-2 px-3">Upload</button>
+        </form>
+    </div>
 </div>
 
 <script src="js/showHideModal.js"></script>
+<script src="js/uploadAvatar.js"></script>

@@ -1,14 +1,12 @@
 const editButton = document.querySelector('.edit')
 const modalBg = document.querySelector('#modal-bg')
-const modal = document.querySelector('#modal')
+const tweetModal = document.querySelector('#edit-tweet-modal')
 const editTweetForm = document.querySelector('#edit-tweet-form')
-const closeModalBtn = document.querySelector('#close-modal-btn')
-
-console.dir(editButton)
+const closeTweetModalBtn = document.querySelector('#close-tweet-modal-btn')
 
 editButton.addEventListener('click', (e) => {
     // display modal
-    modal.classList.remove('hidden')
+    tweetModal.classList.remove('hidden')
     modalBg.classList.remove('hidden')
     // get id and text and insert into form in modal
     const tweetId = e.target.id
@@ -17,8 +15,8 @@ editButton.addEventListener('click', (e) => {
     editTweetForm.children[0].defaultValue = tweetText
 })
 
-closeModalBtn.addEventListener('click', (e) => {
-    modal.classList.add('hidden')
+closeTweetModalBtn.addEventListener('click', (e) => {
+    tweetModal.classList.add('hidden')
     modalBg.classList.add('hidden')
 })
 

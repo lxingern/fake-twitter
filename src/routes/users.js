@@ -43,7 +43,7 @@ router.get('/logout', (req, res) => {
 })
 
 router.get('/myavatar', isLoggedIn, (req, res) => {
-    res.render('users/uploadavatar')
+    res.render('users/uploadavatar', { title: 'Upload avatar' })
 })
 
 router.patch('/myavatar', isLoggedIn, upload.single('avatar'), catchAsync(async (req, res) => {
