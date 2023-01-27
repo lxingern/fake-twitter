@@ -4,8 +4,6 @@ const closeAvatarModalBtn = document.querySelector('#close-avatar-modal-btn')
 const input = document.getElementById('inputTag');
 const imageName = document.getElementById('imageName')
 
-console.log('connected to uploadavatar.js')
-
 avatar.addEventListener('click', () => {
     avatarModal.classList.remove('hidden')
     modalBg.classList.remove('hidden')
