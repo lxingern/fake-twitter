@@ -45,19 +45,26 @@ router.post('/', isLoggedIn, catchAsync(async (req, res) => {
     res.redirect('/tweets')
 }))
 
+router.patch('/:id/likes', isLoggedIn, catchAsync(async (req, res) => {
+    const { id } = req.params
+    let tweet = await Tweet.findById(id)
+    if (tweet.author.equals(req.user._id)) {
+        throw new ExpressError("Unable to like your own tweet.", 400)
+    }
+    tweet.likes++
+    // await Tweet.findByIdAndUpdate(id, { $inc: { likes: 1 } })
+    await tweet.save()
+    res.redirect(`/tweets`)
+}))
+
 router.patch('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params
-    if (req.body.text) {
-        const tweet = await Tweet.findById(id)
-        if (!tweet.author.equals(req.user._id)) {
-            return res.redirect(`/tweets/${id}`)
-        }
-        const updatedTweet = await Tweet.findByIdAndUpdate(id, { text: req.body.text })
-        await updatedTweet.save()
-    } else {
-        const tweet = await Tweet.findByIdAndUpdate(id, { $inc: { likes: 1 } })
-        await tweet.save()
+    const tweet = await Tweet.findById(id)
+    if (!tweet.author.equals(req.user._id)) {
+        throw new ExpressError("Unable to edit another user's tweet.", 400)
     }
+    const updatedTweet = await Tweet.findByIdAndUpdate(id, { text: req.body.text })
+    await updatedTweet.save()
     res.redirect('/tweets')
 }))
 
