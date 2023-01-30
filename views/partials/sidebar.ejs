@@ -4,9 +4,14 @@
             <img id="avatar" class="mr-2 rounded-full cursor-pointer" style="width: 48px; height: 48px" src="<%= currentUser.image.url ? currentUser.image.url : 'images/no-profile-picture.png' %>" alt="">
             <h2 class="font-bold text-lg hidden lg:block">@<%= currentUser.username %></h2>
         </div>
-        <div class="border-2 border-gray-600 rounded-full w-8 h-8 flex justify-center items-center lg:hidden">
+        <div id="ellipsis-button" class="border-2 border-gray-600 rounded-full w-8 h-8 flex justify-center items-center lg:hidden relative">
             <i class="fa-solid fa-ellipsis text-gray-600 cursor-pointer"></i>
+            <div id="pop-up-menu" class="absolute top-8 left-0 bg-white border-2 border-gray-600 rounded-md px-3 py-2 hidden">
+                <a class="w-max block" href="/logout">Log out</a>
+            </div>
         </div>
         <a class="flex flex-col justify-center transition-colors border rounded-full bg-black hover:bg-gray-800 text-white text-sm font-bold py-2 px-3 hidden lg:block" href="/logout">Log out</a>
     </div>
 </section>
+
+<script src="js/popUpMenu.js"></script>

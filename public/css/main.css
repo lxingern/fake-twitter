@@ -47,3 +47,7 @@ textarea {
 #likes-hover:hover {
   color: rgb(233, 0, 50)
 }
+
+#pop-up-menu {
+  z-index: 1
+}
