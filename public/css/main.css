@@ -18,7 +18,7 @@ textarea {
   transform: translate(-50%, -50%); 
   z-index: 2;
   
-  width: 37%;
+  width: 90%;
 
   background-color: white;
 }
@@ -30,7 +30,7 @@ textarea {
   transform: translate(-50%, -50%); 
   z-index: 2;
   
-  width: 20%;
+  width: 90%;
 
   background-color: white;
 }
@@ -50,4 +50,24 @@ textarea {
 
 #pop-up-menu {
   z-index: 1
+}
+
+@media (min-width: 1024px) {
+  #edit-tweet-modal {
+    width: 60%
+  }
+
+  #avatar-modal {
+    width: 40%
+  }
+}
+
+@media (min-width: 1536px) {
+  #edit-tweet-modal {
+    width: 37%
+  }
+
+  #avatar-modal {
+    width: 24%
+  }
 }
