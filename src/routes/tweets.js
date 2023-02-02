@@ -7,17 +7,7 @@ const Tweet = require('../models/tweet')
 const ExpressError = require('../utils/ExpressError')
 
 router.get('/', isLoggedIn, catchAsync(async (req, res) => {
-    const tweets = await Tweet.find({}).populate('author').sort({ createdAt: -1 }).lean()
-    tweets.forEach((tweet) => {
-        const sinceCreated = Date.now() - tweet.createdAt
-        if (sinceCreated < 1000 * 60 * 60) {
-            tweet.timestamp = `${Math.floor(sinceCreated / (1000 * 60))}m`
-        } else if (sinceCreated < 1000 * 60 * 60 * 24) {
-            tweet.timestamp = `${Math.floor(sinceCreated / (1000 * 60 * 60))}h`
-        } else {
-            tweet.timestamp = dayjs(tweet.createdAt).format('D MMM')
-        }
-    })
+    const tweets = await Tweet.find({}).populate('author').sort({ createdAt: -1 })
     res.render('tweets/index', { tweets, title: 'Simple Twitter' })
 }))
 

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const dayjs = require('dayjs')
 
 const tweetSchema = new mongoose.Schema({
     text: {
@@ -17,6 +18,17 @@ const tweetSchema = new mongoose.Schema({
     }
 }, {
     timestamps: true
+})
+
+tweetSchema.virtual('sinceCreated').get(function() {
+    const sinceCreated = Date.now() - this.createdAt
+    if (sinceCreated < 1000 * 60 * 60) {
+        return `${Math.floor(sinceCreated / (1000 * 60))}m`
+    } else if (sinceCreated < 1000 * 60 * 60 * 24) {
+        return `${Math.floor(sinceCreated / (1000 * 60 * 60))}h`
+    } else {
+        return dayjs(this.createdAt).format('D MMM')
+    }
 })
 
 tweetSchema.methods.likedByCurrentUser = function (user) {

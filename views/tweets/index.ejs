@@ -12,12 +12,12 @@
         <% for (let tweet of tweets) { %> 
             <div class="flex py-3 px-5 border-b border-gray-200">
                 <div class="mr-3">
-                    <img class="rounded-full" style="width: 48px; height: 48px" src="<%= tweet.author.image ? tweet.author.image.url : 'images/no-profile-picture.png' %>" alt="">
+                    <img class="rounded-full" style="width: 48px; height: 48px" src="<%= tweet.author.image.url ? tweet.author.image.url : 'images/no-profile-picture.png' %>" alt="">
                 </div>
                 <div class="w-full">
                     <div class="flex items-center justify-between">
                         <h2 class="font-medium mb-1">@<%= tweet.author.username %></h2>
-                        <span class="text-sm text-gray-600"><%= tweet.timestamp %></span>
+                        <span class="text-sm text-gray-600"><%= tweet.sinceCreated %></span>
                     </div>
                     <a href="/tweets/<%= tweet._id %>">
                         <p class="mb-3"><%= tweet.text %></p>
