@@ -1,8 +1,8 @@
-<section class="w-20 lg:w-3/12 2xl:w-2/12 py-3">
+<section class="w-24 lg:w-3/12 2xl:w-2/12 py-3">
     <div class="flex justify-center items-center px-3 flex-wrap">
         <div class="flex items-center mb-5 lg:mb-0 mr-3">
-            <img id="avatar" class="mr-2 rounded-full cursor-pointer" style="width: 48px; height: 48px" src="<%= currentUser.image.url ? currentUser.image.url : 'images/no-profile-picture.png' %>" alt="">
-            <h2 class="font-bold text-lg hidden lg:block">@<%= currentUser.username %></h2>
+            <img id="avatar" class="mx-1 rounded-full cursor-pointer" style="width: 48px; height: 48px" src="<%= currentUser.image.url ? currentUser.image.url : 'images/no-profile-picture.png' %>" alt="">
+            <h2 class="font-bold text-lg hidden lg:block mx-1">@<%= currentUser.username %></h2>
         </div>
         <div id="ellipsis-button" class="border-2 border-gray-600 rounded-full w-8 h-8 flex justify-center items-center lg:hidden relative">
             <i class="fa-solid fa-ellipsis text-gray-600 cursor-pointer"></i>
@@ -13,5 +13,7 @@
         <a class="flex flex-col justify-center transition-colors border rounded-full bg-black hover:bg-gray-800 text-white text-sm font-bold py-2 px-3 hidden lg:block" href="/logout">Log out</a>
     </div>
 </section>
+
+<%- include('../partials/avatar-modal') %>
 
 <script src="js/popUpMenu.js"></script>

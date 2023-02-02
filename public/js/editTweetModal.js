@@ -4,6 +4,8 @@ const tweetModal = document.querySelector('#edit-tweet-modal')
 const editTweetForm = document.querySelector('#edit-tweet-form')
 const closeTweetModalBtn = document.querySelector('#close-tweet-modal-btn')
 
+console.log('connected to editTweetModal.js')
+
 for (let editButton of editButtons) {
     editButton.addEventListener('click', (e) => {
         console.log('listened!')
