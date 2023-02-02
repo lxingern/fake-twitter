@@ -12,7 +12,7 @@
         <% for (let tweet of tweets) { %> 
             <div class="flex py-3 px-5 border-b border-gray-200">
                 <div class="mr-3">
-                    <img class="rounded-full" style="width: 48px; height: 48px" src="<%= tweet.author.image.url ? tweet.author.image.url : 'images/no-profile-picture.png' %>" alt="">
+                    <img class="rounded-full" style="width: 48px; height: 48px" src="<%= tweet.author.image ? tweet.author.image.url : 'images/no-profile-picture.png' %>" alt="">
                 </div>
                 <div class="w-full">
                     <div class="flex items-center justify-between">
@@ -24,7 +24,10 @@
                     </a>
                     <div class="flex flex-row justify-between">
                         <div>
-                        <% if (currentUser && !tweet.author._id.equals(currentUser._id)) { %>
+                        <% if (currentUser.likedTweets.find(likedTweet => likedTweet._id.equals(tweet._id))) { %>
+                            <i class="fa-solid fa-heart text-red-500 mr-2"></i>
+                            <span class="inline-block text-gray-600"><%= tweet.likes %></span>
+                        <% } else if (!tweet.author._id.equals(currentUser._id)) { %>
                             <form class="inline-block mr-2" action="/tweets/<%= tweet._id %>/likes?_method=PATCH" method="POST">
                                 <button><i class="fa-regular fa-heart text-gray-600 hover:text-red-500"></i></button>
                             </form>
@@ -34,7 +37,7 @@
                             <span class="inline-block text-gray-600"><%= tweet.likes %></span>
                         <% } %>
                         </div>
-                        <% if (currentUser && tweet.author._id.equals(currentUser._id)) { %>
+                        <% if (tweet.author._id.equals(currentUser._id)) { %>
                         <div>
                             <i id="<%= tweet._id %>" class="edit inline-block mr-2 fa-regular fa-pen-to-square text-gray-600 cursor-pointer"></i>
     

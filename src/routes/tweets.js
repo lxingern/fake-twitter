@@ -4,6 +4,7 @@ const dayjs = require('dayjs')
 const catchAsync = require('../utils/catchAsync')
 const { isLoggedIn, isAuthor } = require('../middleware')
 const Tweet = require('../models/tweet')
+const ExpressError = require('../utils/ExpressError')
 
 router.get('/', isLoggedIn, catchAsync(async (req, res) => {
     const tweets = await Tweet.find({}).populate('author').sort({ createdAt: -1 }).lean()
@@ -47,12 +48,20 @@ router.post('/', isLoggedIn, catchAsync(async (req, res) => {
 
 router.patch('/:id/likes', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params
-    let tweet = await Tweet.findById(id)
+    const tweet = await Tweet.findById(id)
+    const user = req.user
     if (tweet.author.equals(req.user._id)) {
         throw new ExpressError("Unable to like your own tweet.", 400)
     }
+    const likedTweet = tweet.likedByCurrentUser(user)
+    if (likedTweet) {
+        throw new ExpressError("Unable to like a tweet you have already liked.", 400)
+    }
+    user.likedTweets.push(tweet)
     tweet.likes++
     // await Tweet.findByIdAndUpdate(id, { $inc: { likes: 1 } })
+    await user.save()
+    console.log(user)
     await tweet.save()
     res.redirect(`/tweets`)
 }))

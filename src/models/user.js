@@ -7,9 +7,15 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    likedTweets: [{
+        likedTweet: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Tweet'
+        }
+    }],
     image: {
-            url: String,
-            filename: String
+        url: String,
+        filename: String
     }
 });
 

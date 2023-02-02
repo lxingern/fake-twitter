@@ -19,6 +19,14 @@ const tweetSchema = new mongoose.Schema({
     timestamps: true
 })
 
+tweetSchema.methods.likedByCurrentUser = function (user) {
+    const tweet = this
+    const likedTweet = user.likedTweets.find(likedTweet => {
+        return likedTweet.equals(tweet)
+    })
+    return !!likedTweet
+}
+
 const Tweet = mongoose.model('Tweet', tweetSchema)
 
 module.exports = Tweet
