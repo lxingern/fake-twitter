@@ -14,7 +14,7 @@ for (let editButton of editButtons) {
         modalBg.classList.remove('hidden')
         // get id and text and insert into form in modal
         const tweetId = e.target.id
-        const tweetText = e.target.parentElement.parentElement.previousElementSibling.innerText
+        const tweetText = e.target.parentElement.parentElement.parentElement.previousElementSibling.innerText
         editTweetForm.action = `/tweets/${tweetId}?_method=PATCH`
         editTweetForm.children[0].defaultValue = tweetText
     })
