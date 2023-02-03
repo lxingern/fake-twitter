@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate') %>
 <div class="flex justify-center">
     <%- include('../partials/sidebar') %>
-    <section class="min-h-screen w-full lg:w-3/6 2xl:w-2/6 py-3 border-x border-gray-200">
+    <main class="min-h-screen w-full lg:w-3/6 2xl:w-2/6 py-3 border-x border-gray-200">
         <h1 class="text-3xl font-bold pb-6 px-3">
             <a href="/tweets" class="mr-5 text-xl"><i class="fa-solid fa-arrow-left"></i></a>
             <span>Tweet</span>
@@ -14,37 +14,37 @@
             </div>
             <div class="px-2 pb-5 mb-3 border-b border-gray-200">
                 <p class="text-3xl pb-4"><%= tweet.text %></p>
-                <span class="text-gray-500"><%= createdAt %></span>
+                <time class="text-gray-500"><%= createdAt %></time>
             </div>
         
             <div class="flex flex-row justify-between text-xl pb-3 px-2 border-b border-gray-200">
                 <div>
                     <% if (currentUser.likedTweets.find(likedTweet => likedTweet._id.equals(tweet._id))) { %>
                         <i class="fa-solid fa-heart text-red-500 mr-2"></i>
-                        <span class="inline-block text-gray-600"><%= tweet.likes %></span>
+                        <span class="inline-block text-gray-600" aria-label="Likes"><%= tweet.likes %></span>
                     <% } else if (!tweet.author._id.equals(currentUser._id)) { %>
                         <form class="inline-block mr-2" action="/tweets/<%= tweet._id %>/likes?_method=PATCH" method="POST">
-                            <button><i class="fa-regular fa-heart text-gray-600 hover:text-red-500"></i></button>
+                            <button aria-label="Like tweet"><i class="fa-regular fa-heart text-gray-600 hover:text-red-500"></i></button>
                         </form>
-                        <span class="inline-block text-gray-600"><%= tweet.likes %></span>
+                        <span class="inline-block text-gray-600" aria-label="Likes"><%= tweet.likes %></span>
                     <% } else { %>
                         <i class="fa-regular fa-heart text-gray-600 mr-2"></i>
-                        <span class="inline-block text-gray-600"><%= tweet.likes %></span>
+                        <span class="inline-block text-gray-600" aria-label="Likes"><%= tweet.likes %></span>
                     <% } %>
                 </div>
                 
                 <% if (tweet.author.equals(currentUser)) { %>
                 <div>
-                    <i id="<%= tweet._id %>" class="edit inline-block mr-2 fa-regular fa-pen-to-square text-gray-600 cursor-pointer"></i>
+                    <button class="bg-transparent border-none" aria-label="Edit tweet"><i id="<%= tweet._id %>" class="edit inline-block mr-2 fa-regular fa-pen-to-square text-gray-600 cursor-pointer"></i></button>
 
                     <form class="inline-block" action="/tweets/<%= tweet._id %>?_method=DELETE" method="POST">
-                        <button><i class="fa-regular fa-trash-can text-gray-600"></i></button>
+                        <button aria-label="Delete tweet"><i class="fa-regular fa-trash-can text-gray-600"></i></button>
                     </form>
                 </div>
                 <% } %>
             </div>
         </div>
-    </section>
+    </main>
     <section class="hidden lg:block lg:w-3/12 2xl:w-2/12"></section>
 
     <div id="modal-bg" class="hidden">

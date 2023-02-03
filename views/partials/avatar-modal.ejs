@@ -1,5 +1,5 @@
-<div id="avatar-modal" class="p-4 hidden border rounded-md">
-    <div class="text-right"><i id="close-avatar-modal-btn" class="fa-solid fa-xmark text-3xl text-gray-500 cursor-pointer ml-auto"></i></div>
+<div id="avatar-modal" class="p-4 hidden border rounded-md" aria-label="Upload avatar pop-up">
+    <div class="text-right"><button class="bg-transparent border-none" id="close-avatar-modal-btn" aria-label="Close pop-up"><i class="fa-solid fa-xmark text-3xl text-gray-500 cursor-pointer ml-auto"></i></button></div>
     <h2 class="mb-2 text-xl font-bold">Upload a new avatar:</h2>
     <form class="flex flex-col" action="/myavatar?_method=PATCH" method="POST" enctype="multipart/form-data">
         <label class="mb-4" for="inputTag">

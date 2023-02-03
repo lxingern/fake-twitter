@@ -1,11 +1,11 @@
-<section class="w-24 lg:w-3/12 2xl:w-2/12 py-3">
+<section class="w-24 lg:w-3/12 2xl:w-2/12 py-3" aria-label="sidebar">
     <div class="flex justify-center items-center px-3 flex-wrap">
         <div class="flex items-center mb-5 lg:mb-0 mr-3">
-            <img id="avatar" class="mx-1 rounded-full cursor-pointer" style="width: 48px; height: 48px" src="<%= currentUser.image.url ? currentUser.image.url : '/images/no-profile-picture.png' %>" alt="">
+            <img id="avatar" class="mx-1 rounded-full cursor-pointer" style="width: 48px; height: 48px" src="<%= currentUser.image.url ? currentUser.image.url : '/images/no-profile-picture.png' %>" alt="avatar" aria-label="Upload avatar">
             <h2 class="font-bold text-lg hidden lg:block mx-1">@<%= currentUser.username %></h2>
         </div>
         <div id="ellipsis-button" class="border-2 border-gray-600 rounded-full w-8 h-8 flex justify-center items-center lg:hidden relative">
-            <i class="fa-solid fa-ellipsis text-gray-600 cursor-pointer"></i>
+            <button class="bg-transparent border-0" aria-label="Toggle sidebar menu"><i class="fa-solid fa-ellipsis text-gray-600 cursor-pointer"></i></button>
             <div id="pop-up-menu" class="absolute top-8 left-0 bg-white border-2 border-gray-600 rounded-md px-3 py-2 hidden">
                 <a class="w-max block" href="/logout">Log out</a>
             </div>
