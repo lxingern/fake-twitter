@@ -1,6 +1,6 @@
 # simple-twitter
 
-A simplified mock of Twitter using Node.js for the backend and HTML/CSS/Javascript for the frontend. 
+A simplified mock of Twitter using Node.js for the backend and HTML/CSS/Javascript with Tailwind for the frontend. 
 
 So far, its features include the following:
 * Create tweets and edit or delete them
