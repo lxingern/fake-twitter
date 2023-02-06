@@ -10,6 +10,8 @@ const methodOverride = require('method-override')
 const session = require('express-session')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
+const MongoDBStore = require('connect-mongo')
+const dbUrl = require('./db/mongoose')
 const User = require('./models/user')
 const ExpressError = require('./utils/ExpressError')
 const users = require('./routes/users')
@@ -29,6 +31,10 @@ app.use(methodOverride('_method'))
 app.use(express.static(publicDirectoryPath))
 
 const sessionConfig = {
+    store: MongoDBStore.create({ 
+        mongoUrl: dbUrl,
+        touchAfter: 24 * 60 * 60
+    }),
     secret: 'secret',
     resave: false,
     saveUninitialized: true,
