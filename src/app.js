@@ -11,6 +11,7 @@ const session = require('express-session')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const MongoDBStore = require('connect-mongo')
+const port = process.env.PORT || 3000
 const dbUrl = require('./db/mongoose')
 const User = require('./models/user')
 const ExpressError = require('./utils/ExpressError')
@@ -35,7 +36,7 @@ const sessionConfig = {
         mongoUrl: dbUrl,
         touchAfter: 24 * 60 * 60
     }),
-    secret: 'secret',
+    secret: process.env.SECRET || 'secret',
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -75,6 +76,6 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err, title: 'Error' })
 })
 
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log('Server is up on port 3000!')
 })
